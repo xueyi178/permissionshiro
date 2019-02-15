@@ -1,7 +1,14 @@
 package cn.itcast.ssm.po;
 
-public class SysPermission {
-    private Long id;
+import java.io.Serializable;
+
+public class SysPermission implements Serializable{
+    /**
+	 * 序列化
+	 */
+	private static final long serialVersionUID = -4919391432498094286L;
+
+	private Long id;
 
     private String name;
 

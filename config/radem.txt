@@ -1,1 +1,3 @@
 http://localhost:8080/permission_shiro1110
+#清除缓存测试
+http://localhost:8080/permission_shiro1110/clearShiroCache.action

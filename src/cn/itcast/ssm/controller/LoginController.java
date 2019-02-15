@@ -1,7 +1,6 @@
 package cn.itcast.ssm.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.itcast.ssm.exception.CustomException;
-import cn.itcast.ssm.po.ActiveUser;
 import cn.itcast.ssm.service.SysService;
 
 /**
@@ -63,6 +61,7 @@ public class LoginController {
 	
 	/**
 	 * shiro登录的地址,登录提交的地址和applicationContext-shiro.xml中配置的loginUrl一致
+	 * login：方法就是抛出异常信息,来解析异常信息的显示错误的方法,没有进行认证,认证是通过realm来进行的
 	 * @return
 	 */
 	@RequestMapping("/login")
@@ -78,11 +77,13 @@ public class LoginController {
 			} else if (IncorrectCredentialsException.class.getName().equals(
 					exceptionClassName)) {
 				throw new CustomException("用户名/密码错误");
+			} else if ("randomCodeError".equals(exceptionClassName)) {
+				throw new CustomException("验证码错误");
 			} else{
 				throw new Exception();//最终在异常处理器生成未知错误
 			}
 		}
-		//此方法不处理登录成功(认证成功),shiro认证成功后会自动 跳转到上一个路径
+		//此方法不处理登录成功(认证成功),shiro认证成功后会自动跳转到上一个路径
 		//登录失败还返回到login的页面
 		return "login";
 	}
